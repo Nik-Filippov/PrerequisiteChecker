@@ -1,5 +1,8 @@
 package prereqchecker;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 /**
  * Custom Linked List structure
  */
@@ -9,11 +12,11 @@ public class LinkedList {
     private Node head;
 
     public class Node {
-        String data;
+        Object data;
         Node next;
-        Node(String d)
+        Node(Object b)
         {
-            data = d;
+            data = b;
             next = null;
         }
     }
@@ -22,7 +25,7 @@ public class LinkedList {
         return head;
     }
 
-    public void add(String data)
+    public void add(Object data)
     {
         Node new_node = new Node(data);
         new_node.next = null;

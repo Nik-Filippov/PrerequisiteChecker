@@ -29,7 +29,7 @@ public class AdjList {
         /*
         if ( args.length < 2 ) {
             StdOut.println("Execute: java -cp bin prereqchecker.AdjList <adjacency list INput file> <adjacency list OUTput file>");
-            return;
+            //return;
         }
         else{
             StdIn.setFile(args[0]);
