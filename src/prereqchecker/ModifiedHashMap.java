@@ -16,12 +16,10 @@ prerequisites, and if we find course 1, we can return "NO". Else,  return "YES"
 public class ModifiedHashMap {
    
     private HashMap<String, ArrayList<String>> adjList;
-    private HashMap<String, Boolean> adjListBool;
-    private HashSet allPrereq = new HashSet<>();
+    private HashSet<String> allPrereq = new HashSet<>();
 
-    public ModifiedHashMap(HashMap<String, ArrayList<String>> adjList, HashMap<String, Boolean> adjListBool) {
+    public ModifiedHashMap(HashMap<String, ArrayList<String>> adjList) {
         this.adjList = adjList;
-        this.adjListBool = adjListBool;
     }
     //course1 - Advanced course
     //course2 - Prereq course
@@ -39,7 +37,7 @@ public class ModifiedHashMap {
         for(String key : adjList.keySet()){
             if(course2.equals(key)){
                 for(int i = 0; i < adjList.get(key).size(); i++){
-                    allPrereq.add(adjList.get(key).get(i));
+                    allPrereq.add(adjList.get(key).get(i).replaceAll(" ", ""));
                 }
                 if(adjList.get(key).size() != 0){
                     for(int i = 0; i < adjList.get(key).size(); i++){
@@ -49,5 +47,32 @@ public class ModifiedHashMap {
                 break;
             }
         }
+    }
+
+    public ArrayList<String> eligible(ArrayList<String> coursesTaken){
+        ArrayList<String> taken = new ArrayList<>();
+        for(int i = 0; i < coursesTaken.size(); i++){
+            if(!taken.contains(coursesTaken.get(i))){
+                taken.add(i, coursesTaken.get(i));
+                taken.set(i, taken.get(i).replaceAll(" ", ""));
+            }
+            addAllPrereq(coursesTaken.get(i));
+            for(String key : allPrereq){
+                if(!taken.contains(key)){
+                    taken.add(key);
+                }
+            }
+            allPrereq.clear();
+        }
+        ArrayList<String> coursesEligible = new ArrayList<>();
+        for(String key : adjList.keySet()){
+            addAllPrereq(key);
+            if(taken.containsAll(allPrereq) && !taken.contains(key)){
+                //Debug further, addAllPrereq might work wrong since it does not add "cs111"
+                coursesEligible.add(key);
+            }
+            allPrereq.clear();
+        }
+        return coursesEligible;
     }
 }

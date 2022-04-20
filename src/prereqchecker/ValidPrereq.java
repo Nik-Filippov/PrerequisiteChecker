@@ -45,7 +45,6 @@ public class ValidPrereq {
         StdIn.setFile("adjlist.in");
         StdOut.setFile("validprereq.out");
         HashMap<String, ArrayList<String>> adjList = new  HashMap<>();
-        HashMap<String, Boolean> adjListBool = new  HashMap<>();
         StdIn.readLine();
         boolean isPrereq = false;
         while(StdIn.hasNextLine()){
@@ -56,7 +55,6 @@ public class ValidPrereq {
             }
             if(!isPrereq){
                 adjList.put(input, new ArrayList<>());
-                adjListBool.put(input, false);
             }
             else{
                 String curCourse = input.substring(0, input.indexOf(" "));
@@ -73,7 +71,7 @@ public class ValidPrereq {
         StdIn.setFile("validprereq.in");
         String course1 = StdIn.readLine(); //Advanced course
         String course2 = StdIn.readLine(); //Prereq course
-        ModifiedHashMap hm = new ModifiedHashMap(adjList, adjListBool);
+        ModifiedHashMap hm = new ModifiedHashMap(adjList);
         StdOut.print(hm.isValid("cs314", "mat250"));
     }
 }
