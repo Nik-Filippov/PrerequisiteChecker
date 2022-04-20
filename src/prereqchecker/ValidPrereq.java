@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import prereqchecker.LinkedList.Node;
-
 /**
  * Steps to implement this class main method:
  * 
