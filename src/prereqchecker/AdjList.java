@@ -1,6 +1,7 @@
 package prereqchecker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Steps to implement this class main method:
@@ -38,7 +39,7 @@ public class AdjList {
         */
         StdIn.setFile("adjlist.in");
         StdOut.setFile("adjlist.out");
-        ArrayList<LinkedList> adjList = new ArrayList<>();
+        HashMap<String, ArrayList<String>> adjList = new HashMap<>();
         StdIn.readLine();
         boolean isPrereq = false;
         while(StdIn.hasNextLine()){
@@ -48,28 +49,28 @@ public class AdjList {
                 continue;
             }
             if(!isPrereq){
-                LinkedList course = new LinkedList();
-                course.add(input);
-                adjList.add(course);
+                adjList.put(input, new ArrayList<>());
             }
             else{
                 String curCourse = input.substring(0, input.indexOf(" "));
                 String prereqCourse = input.substring(input.indexOf(" "));
-                for(int i = 0; i < adjList.size(); i++){
-                    if(curCourse.equals(adjList.get(i).getHead().data)){
-                        adjList.get(i).add(prereqCourse);
+                for(String key : adjList.keySet()){
+                    if(curCourse.equals(key)){
+                        adjList.get(key).add(prereqCourse);
                         break;
                     }
                 }
             }
         }
-        for(int i = 0; i < adjList.size(); i++){
-            if(i == adjList.size() - 1){
-                StdOut.print(adjList.get(i).toString());
+        for(String key : adjList.keySet()){
+            String prereq = key + " ";
+            if(!adjList.get(key).isEmpty()){
+                for(int i = 0; i < adjList.get(key).size(); i++){
+                    prereq += adjList.get(key).get(i) + " ";
+                }
             }
-            else{
-                StdOut.println(adjList.get(i).toString());
-            }
+            prereq = prereq.substring(0, prereq.length() - 1);
+            StdOut.println(prereq);
         }
     }
 }

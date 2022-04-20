@@ -22,6 +22,7 @@ public class ModifiedHashMap {
     public ModifiedHashMap(HashMap<String, ArrayList<String>> adjList) {
         this.adjList = adjList;
     }
+
     //course1 - Advanced course
     //course2 - Prereq course
     public String isValid(String course1, String course2) {
