@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch NeedToTake",
+            "request": "launch",
+            "mainClass": "prereqchecker.NeedToTake",
+            "projectName": "PreReqChecker_1c7dc3ec"
+        },
+        {
+            "type": "java",
             "name": "Launch Eligible",
             "request": "launch",
             "mainClass": "prereqchecker.Eligible",

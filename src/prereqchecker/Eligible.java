@@ -71,8 +71,9 @@ public class Eligible {
         }
         ModifiedHashMap hm = new ModifiedHashMap(adjList);
         ArrayList<String> el = hm.eligible(coursesTaken);
-        for(int i = 0; i < el.size(); i++){
+        for(int i = 0; i < el.size() - 1; i++){
             StdOut.println(el.get(i));
         }
+        StdOut.print(el.get(el.size() - 1));
     }
 }

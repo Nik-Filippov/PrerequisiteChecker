@@ -3,6 +3,7 @@ package prereqchecker;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.concurrent.PriorityBlockingQueue;
 
 /*
 We want to find if course 1 is a prerequisite to course 2. If this is true, setting course 2 to be a prerequisite for course 1 
@@ -32,6 +33,24 @@ public class ModifiedHashMap {
             return "NO";
     }
 
+    private ArrayList<String> findAllPrereq(ArrayList<String> coursesTaken){
+        ArrayList<String> taken = new ArrayList<>();
+        for(int i = 0; i < coursesTaken.size(); i++){
+            if(!taken.contains(coursesTaken.get(i))){
+                taken.add(i, coursesTaken.get(i));
+                taken.set(i, taken.get(i).replaceAll(" ", ""));
+            }
+            addAllPrereq(coursesTaken.get(i));
+            for(String key : allPrereq){
+                if(!taken.contains(key)){
+                    taken.add(key);
+                }
+            }
+            allPrereq.clear();
+        }
+        return taken;
+    }
+
     public void addAllPrereq(String course2){
         course2 = course2.replaceAll(" ", "");
         for(String key : adjList.keySet()){
@@ -50,29 +69,27 @@ public class ModifiedHashMap {
     }
 
     public ArrayList<String> eligible(ArrayList<String> coursesTaken){
-        ArrayList<String> taken = new ArrayList<>();
-        for(int i = 0; i < coursesTaken.size(); i++){
-            if(!taken.contains(coursesTaken.get(i))){
-                taken.add(i, coursesTaken.get(i));
-                taken.set(i, taken.get(i).replaceAll(" ", ""));
-            }
-            addAllPrereq(coursesTaken.get(i));
-            for(String key : allPrereq){
-                if(!taken.contains(key)){
-                    taken.add(key);
-                }
-            }
-            allPrereq.clear();
-        }
+        ArrayList<String> taken = findAllPrereq(coursesTaken);
         ArrayList<String> coursesEligible = new ArrayList<>();
         for(String key : adjList.keySet()){
             addAllPrereq(key);
             if(taken.containsAll(allPrereq) && !taken.contains(key)){
-                //Debug further, addAllPrereq might work wrong since it does not add "cs111"
                 coursesEligible.add(key);
             }
             allPrereq.clear();
         }
         return coursesEligible;
+    }
+
+    public ArrayList<String> needToTake(String targetCourse, ArrayList<String> coursesTaken){
+        ArrayList<String> taken = findAllPrereq(coursesTaken);
+        ArrayList<String> needed = new ArrayList<>();
+        ArrayList<String> required = findAllPrereq(adjList.get(targetCourse));
+        for(int i = 0; i < required.size(); i++){
+            if(!taken.contains(required.get(i))){
+                needed.add(required.get(i));
+            }
+        }
+        return needed;
     }
 }

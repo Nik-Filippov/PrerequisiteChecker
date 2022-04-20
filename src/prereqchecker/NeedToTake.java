@@ -27,12 +27,55 @@ import java.util.*;
  */
 public class NeedToTake {
     public static void main(String[] args) {
-
+        /*
         if ( args.length < 3 ) {
             StdOut.println("Execute: java NeedToTake <adjacency list INput file> <need to take INput file> <need to take OUTput file>");
             return;
         }
-
-	// WRITE YOUR CODE HERE
+        else{
+            StdIn.setFile(args[0]);
+            StdIn.setFile(args[1]);
+            StdOut.setFile(args[2]);
+        }
+        */
+        StdIn.setFile("adjlist.in");
+        StdOut.setFile("needtotake.out");
+        HashMap<String, ArrayList<String>> adjList = new  HashMap<>();
+        StdIn.readLine();
+        boolean isPrereq = false;
+        while(StdIn.hasNextLine()){
+            String input = StdIn.readLine();
+            if(Character.isDigit(input.charAt(0))){
+                isPrereq = true;
+                continue;
+            }
+            if(!isPrereq){
+                adjList.put(input, new ArrayList<>());
+            }
+            else{
+                String curCourse = input.substring(0, input.indexOf(" "));
+                String prereqCourse = input.substring(input.indexOf(" "));
+                for(String key : adjList.keySet()){
+                    if(curCourse.equals(key)){
+                        adjList.get(key).add(prereqCourse);
+                        break;
+                    }
+                }
+            }
+        }
+        StdIn.setFile("needtotake.in");
+        String targetCourse = StdIn.readLine();
+        StdIn.readLine();
+        ArrayList<String> coursesTaken = new ArrayList<>();
+        while(StdIn.hasNextLine()){
+            coursesTaken.add(StdIn.readLine());
+        }
+        ModifiedHashMap hm = new ModifiedHashMap(adjList);
+        ArrayList<String> need = hm.needToTake(targetCourse, coursesTaken);
+        //MIGHT RESULT AN ERROR
+        for(int i = 0; i < need.size() - 1; i++){
+            StdOut.println(need.get(i));
+        }
+        StdOut.print(need.get(need.size() - 1));
     }
 }
