@@ -54,7 +54,7 @@ public class Eligible {
             }
             else{
                 String curCourse = input.substring(0, input.indexOf(" "));
-                String prereqCourse = input.substring(input.indexOf(" "));
+                String prereqCourse = input.substring(input.indexOf(" ") + 1);
                 for(String key : adjList.keySet()){
                     if(curCourse.equals(key)){
                         adjList.get(key).add(prereqCourse);

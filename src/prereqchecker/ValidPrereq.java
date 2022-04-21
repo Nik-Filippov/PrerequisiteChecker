@@ -56,7 +56,7 @@ public class ValidPrereq {
             }
             else{
                 String curCourse = input.substring(0, input.indexOf(" "));
-                String prereqCourse = input.substring(input.indexOf(" "));
+                String prereqCourse = input.substring(input.indexOf(" ") + 1);
                 for(String key : adjList.keySet()){
                     if(curCourse.equals(key)){
                         adjList.get(key).add(prereqCourse);
@@ -65,11 +65,13 @@ public class ValidPrereq {
                 }
             }
         }
+        //If course 2 was an immediate prerequisite for course 1, would all courses still be possible to take?
         //If course 1 is a prerequisite to course 2, print "NO", otherwise "YES"
+        //Set course 2 as a prerequizite for course 1
         StdIn.setFile("validprereq.in");
         String course1 = StdIn.readLine(); //Advanced course
         String course2 = StdIn.readLine(); //Prereq course
         ModifiedHashMap hm = new ModifiedHashMap(adjList);
-        StdOut.print(hm.isValid("cs314", "mat250"));
+        StdOut.print(hm.isValid(course1, course2));
     }
 }

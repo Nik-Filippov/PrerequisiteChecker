@@ -40,7 +40,7 @@ public class AdjList {
         StdIn.setFile("adjlist.in");
         StdOut.setFile("adjlist.out");
         HashMap<String, ArrayList<String>> adjList = new HashMap<>();
-        StdIn.readLine();
+        int numEntries = Integer.parseInt(StdIn.readLine());
         boolean isPrereq = false;
         while(StdIn.hasNextLine()){
             String input = StdIn.readLine();
@@ -53,7 +53,7 @@ public class AdjList {
             }
             else{
                 String curCourse = input.substring(0, input.indexOf(" "));
-                String prereqCourse = input.substring(input.indexOf(" "));
+                String prereqCourse = input.substring(input.indexOf(" ") + 1);
                 for(String key : adjList.keySet()){
                     if(curCourse.equals(key)){
                         adjList.get(key).add(prereqCourse);
@@ -62,7 +62,9 @@ public class AdjList {
                 }
             }
         }
+        int counter = 0;
         for(String key : adjList.keySet()){
+            counter++;
             String prereq = key + " ";
             if(!adjList.get(key).isEmpty()){
                 for(int i = 0; i < adjList.get(key).size(); i++){
@@ -70,7 +72,12 @@ public class AdjList {
                 }
             }
             prereq = prereq.substring(0, prereq.length() - 1);
-            StdOut.println(prereq);
+            if(counter == numEntries){
+                StdOut.print(prereq);
+            }
+            else{
+                StdOut.println(prereq);
+            }
         }
     }
 }

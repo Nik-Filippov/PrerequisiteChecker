@@ -28,13 +28,66 @@ import java.util.*;
  */
 public class SchedulePlan {
     public static void main(String[] args) {
-
+        /*
         if ( args.length < 3 ) {
             StdOut.println("Execute: java -cp bin prereqchecker.SchedulePlan <adjacency list INput file> <schedule plan INput file> <schedule plan OUTput file>");
             return;
         }
-
-	// WRITE YOUR CODE HERE
-
+        else{
+            StdIn.setFile(args[0]);
+            StdIn.setFile(args[1]);
+            StdOut.setFile(args[2]);
+        }
+        */
+        StdIn.setFile("adjlist.in");
+        StdOut.setFile("scheduleplan.out");
+        HashMap<String, ArrayList<String>> adjList = new  HashMap<>();
+        StdIn.readLine();
+        boolean isPrereq = false;
+        while(StdIn.hasNextLine()){
+            String input = StdIn.readLine();
+            if(Character.isDigit(input.charAt(0))){
+                isPrereq = true;
+                continue;
+            }
+            if(!isPrereq){
+                adjList.put(input, new ArrayList<>());
+            }
+            else{
+                String curCourse = input.substring(0, input.indexOf(" "));
+                String prereqCourse = input.substring(input.indexOf(" ") + 1);
+                for(String key : adjList.keySet()){
+                    if(curCourse.equals(key)){
+                        adjList.get(key).add(prereqCourse);
+                        break;
+                    }
+                }
+            }
+        }
+        //If course 2 was an immediate prerequisite for course 1, would all courses still be possible to take?
+        //If course 1 is a prerequisite to course 2, print "NO", otherwise "YES"
+        //Set course 2 as a prerequizite for course 1
+        StdIn.setFile("scheduleplan.in");
+        String target = StdIn.readLine();
+        StdIn.readLine();
+        ArrayList <String> taken = new ArrayList<>();
+        while(StdIn.hasNextLine()){
+            taken.add(StdIn.readLine());
+        }
+        ModifiedHashMap hm = new ModifiedHashMap(adjList);
+        ArrayList<ArrayList<String>> sc = hm.schedule(target, taken);
+        StdOut.println(sc.size());
+        for(int i = 0; i < sc.size(); i++){
+            String out = "";
+            for(int j = 0; j < sc.get(i).size(); j++){
+                if(j < sc.get(i).size() - 1){
+                    out += sc.get(i).get(j) + " ";
+                }
+                else{
+                    out += sc.get(i).get(j);
+                }
+            }
+            StdOut.println(out);
+        }
     }
 }

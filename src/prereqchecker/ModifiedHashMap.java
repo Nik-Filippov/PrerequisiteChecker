@@ -1,5 +1,6 @@
 package prereqchecker;
 
+import java.nio.channels.NonReadableChannelException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,6 +19,8 @@ public class ModifiedHashMap {
    
     private HashMap<String, ArrayList<String>> adjList;
     private HashSet<String> allPrereq = new HashSet<>();
+    private ArrayList<String> temp = new ArrayList<>();
+    private ArrayList<String> orderedNeed = new ArrayList<>();
 
     public ModifiedHashMap(HashMap<String, ArrayList<String>> adjList) {
         this.adjList = adjList;
@@ -25,10 +28,14 @@ public class ModifiedHashMap {
 
     //course1 - Advanced course
     //course2 - Prereq course
+    //If course 1 is a prerequisite to course 2, print "NO", otherwise "YES"
+    //Set course 2 as a prerequizite for course 1
     public String isValid(String course1, String course2) {
-
-        addAllPrereq(course1);
-        if (!allPrereq.contains(course2) && !allPrereq.isEmpty())
+        addAllPrereq(course2);
+        if(allPrereq.isEmpty()){
+            return "YES";
+        }
+        if (!allPrereq.contains(course1))
             return "YES"; 
         else 
             return "NO";
@@ -39,7 +46,6 @@ public class ModifiedHashMap {
         for(int i = 0; i < coursesTaken.size(); i++){
             if(!taken.contains(coursesTaken.get(i))){
                 taken.add(i, coursesTaken.get(i));
-                taken.set(i, taken.get(i).replaceAll(" ", ""));
             }
             addAllPrereq(coursesTaken.get(i));
             for(String key : allPrereq){
@@ -53,11 +59,10 @@ public class ModifiedHashMap {
     }
 
     public void addAllPrereq(String course2){
-        course2 = course2.replaceAll(" ", "");
         for(String key : adjList.keySet()){
             if(course2.equals(key)){
                 for(int i = 0; i < adjList.get(key).size(); i++){
-                    allPrereq.add(adjList.get(key).get(i).replaceAll(" ", ""));
+                    allPrereq.add(adjList.get(key).get(i));
                 }
                 if(adjList.get(key).size() != 0){
                     for(int i = 0; i < adjList.get(key).size(); i++){
@@ -92,5 +97,56 @@ public class ModifiedHashMap {
             }
         }
         return needed;
+    }
+
+    public ArrayList<ArrayList<String>> schedule(String target, ArrayList<String> taken){
+        ArrayList<ArrayList<String>> semesters = new ArrayList();
+        ArrayList<String> need = needToTake(target, taken);
+        need.addAll(taken);
+        need.add(target);
+        orderCourses(target, need);
+        orderedNeed.remove(target);
+        orderedNeed.removeAll(taken);
+        int counter = 0; 
+        while(!orderedNeed.isEmpty()){
+            semesters.add(counter, new ArrayList<>());
+            for(int i = 0; i < orderedNeed.size(); i++){
+                String cur = orderedNeed.get(i);
+                //If course 1 is a prerequisite to course 2, print "NO", otherwise "YES"
+                if(!semesters.get(counter).isEmpty()){
+                    boolean canAdd = true;
+                    for(int j = 0; j < semesters.get(counter).size(); j++){
+                        if(adjList.get(cur).contains(semesters.get(counter).get(j))){
+                            canAdd = false;
+                        }
+                    }
+                    if(!canAdd){
+                        i = orderedNeed.size();
+                        break;
+                    }
+                    else{
+                        semesters.get(counter).add(cur);
+                        break;
+                    }
+                }
+                else{
+                    semesters.get(counter).add(cur);
+                }
+            }
+            orderedNeed.removeAll(semesters.get(counter));
+            counter++;
+        }
+        return semesters;
+    }
+
+    public void orderCourses(String target, ArrayList<String> need){
+        while(!orderedNeed.contains(target)){
+            for(String key : eligible(temp)){
+                if(need.contains(key) && !orderedNeed.contains(key)){
+                    orderedNeed.add(key);
+                    temp.add(key);
+                }
+            }
+        }
     }
 }
