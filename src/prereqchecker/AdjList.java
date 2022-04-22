@@ -27,18 +27,18 @@ public class AdjList {
         javac -d bin src/prereqchecker/*.java
         java -cp bin prereqchecker.AdjList adjlist.in adjlist.out
         */
-        /*
+        
         if ( args.length < 2 ) {
             StdOut.println("Execute: java -cp bin prereqchecker.AdjList <adjacency list INput file> <adjacency list OUTput file>");
-            //return;
+            return;
         }
         else{
             StdIn.setFile(args[0]);
             StdOut.setFile(args[1]);
         }
-        */
-        StdIn.setFile("adjlist.in");
-        StdOut.setFile("adjlist.out");
+        
+        //StdIn.setFile("adjlist.in");
+        //StdOut.setFile("adjlist.out");
         HashMap<String, ArrayList<String>> adjList = new HashMap<>();
         int numEntries = Integer.parseInt(StdIn.readLine());
         boolean isPrereq = false;

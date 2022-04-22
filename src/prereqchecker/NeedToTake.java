@@ -27,19 +27,23 @@ import java.util.*;
  */
 public class NeedToTake {
     public static void main(String[] args) {
+        String str = "";
         /*
+        cd /Users/nikitafilippov/Desktop/Java/PreReqChecker
+        javac -d bin src/prereqchecker/*.java
+        java -cp bin prereqchecker.NeedToTake adjlist.in needtotake.in needtotake.out
+        */
         if ( args.length < 3 ) {
             StdOut.println("Execute: java NeedToTake <adjacency list INput file> <need to take INput file> <need to take OUTput file>");
             return;
         }
         else{
             StdIn.setFile(args[0]);
-            StdIn.setFile(args[1]);
+            str = args[1];
             StdOut.setFile(args[2]);
         }
-        */
-        StdIn.setFile("adjlist.in");
-        StdOut.setFile("needtotake.out");
+        //StdIn.setFile("adjlist.in");
+        //StdOut.setFile("needtotake.out");
         HashMap<String, ArrayList<String>> adjList = new  HashMap<>();
         StdIn.readLine();
         boolean isPrereq = false;
@@ -63,7 +67,7 @@ public class NeedToTake {
                 }
             }
         }
-        StdIn.setFile("needtotake.in");
+        StdIn.setFile(str);
         String targetCourse = StdIn.readLine();
         StdIn.readLine();
         ArrayList<String> coursesTaken = new ArrayList<>();

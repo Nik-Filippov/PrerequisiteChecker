@@ -2,8 +2,6 @@ package prereqchecker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 
 /**
  * Steps to implement this class main method:
@@ -30,18 +28,22 @@ import java.util.Map;
 public class ValidPrereq {
     public static void main(String[] args) {
         /*
+        cd /Users/nikitafilippov/Desktop/Java/PreReqChecker
+        javac -d bin src/prereqchecker/*.java
+        java -cp bin prereqchecker.ValidPrereq adjlist.in validprereq.in validprereq.out
+        */
+        String str = "";
         if ( args.length < 3 ) {
             StdOut.println("Execute: java -cp bin prereqchecker.ValidPrereq <adjacency list INput file> <valid prereq INput file> <valid prereq OUTput file>");
             return;
         }
         else{
             StdIn.setFile(args[0]);
-            StdIn.setFile(args[1]);
+            str = args[1];
             StdOut.setFile(args[2]);
         }
-        */
-        StdIn.setFile("adjlist.in");
-        StdOut.setFile("validprereq.out");
+        //StdIn.setFile("adjlist.in");
+        //StdOut.setFile("validprereq.out");
         HashMap<String, ArrayList<String>> adjList = new  HashMap<>();
         StdIn.readLine();
         boolean isPrereq = false;
@@ -68,7 +70,7 @@ public class ValidPrereq {
         //If course 2 was an immediate prerequisite for course 1, would all courses still be possible to take?
         //If course 1 is a prerequisite to course 2, print "NO", otherwise "YES"
         //Set course 2 as a prerequizite for course 1
-        StdIn.setFile("validprereq.in");
+        StdIn.setFile(str);
         String course1 = StdIn.readLine(); //Advanced course
         String course2 = StdIn.readLine(); //Prereq course
         ModifiedHashMap hm = new ModifiedHashMap(adjList);

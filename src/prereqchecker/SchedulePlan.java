@@ -29,18 +29,22 @@ import java.util.*;
 public class SchedulePlan {
     public static void main(String[] args) {
         /*
+        cd /Users/nikitafilippov/Desktop/Java/PreReqChecker
+        javac -d bin src/prereqchecker/*.java
+        java -cp bin prereqchecker.SchedulePlan adjlist.in scheduleplan.in scheduleplan.out
+        */
+        String str = "";
         if ( args.length < 3 ) {
             StdOut.println("Execute: java -cp bin prereqchecker.SchedulePlan <adjacency list INput file> <schedule plan INput file> <schedule plan OUTput file>");
             return;
         }
         else{
             StdIn.setFile(args[0]);
-            StdIn.setFile(args[1]);
+            str = args[1];
             StdOut.setFile(args[2]);
         }
-        */
-        StdIn.setFile("adjlist.in");
-        StdOut.setFile("scheduleplan.out");
+        //StdIn.setFile("adjlist.in");
+        //StdOut.setFile("scheduleplan.out");
         HashMap<String, ArrayList<String>> adjList = new  HashMap<>();
         StdIn.readLine();
         boolean isPrereq = false;
@@ -64,10 +68,7 @@ public class SchedulePlan {
                 }
             }
         }
-        //If course 2 was an immediate prerequisite for course 1, would all courses still be possible to take?
-        //If course 1 is a prerequisite to course 2, print "NO", otherwise "YES"
-        //Set course 2 as a prerequizite for course 1
-        StdIn.setFile("scheduleplan.in");
+        StdIn.setFile(str);
         String target = StdIn.readLine();
         StdIn.readLine();
         ArrayList <String> taken = new ArrayList<>();
@@ -87,7 +88,12 @@ public class SchedulePlan {
                     out += sc.get(i).get(j);
                 }
             }
-            StdOut.println(out);
+            if(i == sc.size() - 1){
+                StdOut.print(out);
+            }
+            else{
+                StdOut.println(out);
+            }
         }
     }
 }

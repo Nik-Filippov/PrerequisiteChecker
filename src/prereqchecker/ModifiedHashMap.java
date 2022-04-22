@@ -1,10 +1,8 @@
 package prereqchecker;
 
-import java.nio.channels.NonReadableChannelException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.concurrent.PriorityBlockingQueue;
 
 /*
 We want to find if course 1 is a prerequisite to course 2. If this is true, setting course 2 to be a prerequisite for course 1 
@@ -18,9 +16,9 @@ prerequisites, and if we find course 1, we can return "NO". Else,  return "YES"
 public class ModifiedHashMap {
    
     private HashMap<String, ArrayList<String>> adjList;
-    private HashSet<String> allPrereq = new HashSet<>();
-    private ArrayList<String> temp = new ArrayList<>();
-    private ArrayList<String> orderedNeed = new ArrayList<>();
+    private HashSet<String> allPrereq = new HashSet<String>();
+    private ArrayList<String> temp = new ArrayList<String>();
+    private ArrayList<String> orderedNeed = new ArrayList<String>();
 
     public ModifiedHashMap(HashMap<String, ArrayList<String>> adjList) {
         this.adjList = adjList;
@@ -42,7 +40,7 @@ public class ModifiedHashMap {
     }
 
     private ArrayList<String> findAllPrereq(ArrayList<String> coursesTaken){
-        ArrayList<String> taken = new ArrayList<>();
+        ArrayList<String> taken = new ArrayList<String>();
         for(int i = 0; i < coursesTaken.size(); i++){
             if(!taken.contains(coursesTaken.get(i))){
                 taken.add(i, coursesTaken.get(i));
@@ -76,7 +74,7 @@ public class ModifiedHashMap {
 
     public ArrayList<String> eligible(ArrayList<String> coursesTaken){
         ArrayList<String> taken = findAllPrereq(coursesTaken);
-        ArrayList<String> coursesEligible = new ArrayList<>();
+        ArrayList<String> coursesEligible = new ArrayList<String>();
         for(String key : adjList.keySet()){
             addAllPrereq(key);
             if(taken.containsAll(allPrereq) && !taken.contains(key)){
@@ -89,7 +87,7 @@ public class ModifiedHashMap {
 
     public ArrayList<String> needToTake(String targetCourse, ArrayList<String> coursesTaken){
         ArrayList<String> taken = findAllPrereq(coursesTaken);
-        ArrayList<String> needed = new ArrayList<>();
+        ArrayList<String> needed = new ArrayList<String>();
         ArrayList<String> required = findAllPrereq(adjList.get(targetCourse));
         for(int i = 0; i < required.size(); i++){
             if(!taken.contains(required.get(i))){
@@ -100,7 +98,7 @@ public class ModifiedHashMap {
     }
 
     public ArrayList<ArrayList<String>> schedule(String target, ArrayList<String> taken){
-        ArrayList<ArrayList<String>> semesters = new ArrayList();
+        ArrayList<ArrayList<String>> semesters = new ArrayList<ArrayList<String>>();
         ArrayList<String> need = needToTake(target, taken);
         need.addAll(taken);
         need.add(target);
@@ -112,7 +110,6 @@ public class ModifiedHashMap {
             semesters.add(counter, new ArrayList<>());
             for(int i = 0; i < orderedNeed.size(); i++){
                 String cur = orderedNeed.get(i);
-                //If course 1 is a prerequisite to course 2, print "NO", otherwise "YES"
                 if(!semesters.get(counter).isEmpty()){
                     boolean canAdd = true;
                     for(int j = 0; j < semesters.get(counter).size(); j++){
