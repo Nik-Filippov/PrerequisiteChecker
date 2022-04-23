@@ -1,7 +1,6 @@
 package prereqchecker;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Steps to implement this class main method:
@@ -42,6 +41,7 @@ public class ValidPrereq {
             str = args[1];
             StdOut.setFile(args[2]);
         }
+        //String str = "validprereq.in";
         //StdIn.setFile("adjlist.in");
         //StdOut.setFile("validprereq.out");
         HashMap<String, ArrayList<String>> adjList = new  HashMap<>();

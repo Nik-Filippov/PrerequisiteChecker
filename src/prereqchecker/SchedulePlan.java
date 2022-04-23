@@ -43,6 +43,7 @@ public class SchedulePlan {
             str = args[1];
             StdOut.setFile(args[2]);
         }
+        //String str = "scheduleplan.in";
         //StdIn.setFile("adjlist.in");
         //StdOut.setFile("scheduleplan.out");
         HashMap<String, ArrayList<String>> adjList = new  HashMap<>();

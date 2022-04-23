@@ -1,8 +1,6 @@
 package prereqchecker;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 /*
 We want to find if course 1 is a prerequisite to course 2. If this is true, setting course 2 to be a prerequisite for course 1 
@@ -29,7 +27,7 @@ public class ModifiedHashMap {
     //If course 1 is a prerequisite to course 2, print "NO", otherwise "YES"
     //Set course 2 as a prerequizite for course 1
     public String isValid(String course1, String course2) {
-        addAllPrereq(course2);
+        addCoursePrereq(course2);
         if(allPrereq.isEmpty()){
             return "YES";
         }
@@ -45,7 +43,7 @@ public class ModifiedHashMap {
             if(!taken.contains(coursesTaken.get(i))){
                 taken.add(i, coursesTaken.get(i));
             }
-            addAllPrereq(coursesTaken.get(i));
+            addCoursePrereq(coursesTaken.get(i));
             for(String key : allPrereq){
                 if(!taken.contains(key)){
                     taken.add(key);
@@ -56,7 +54,7 @@ public class ModifiedHashMap {
         return taken;
     }
 
-    public void addAllPrereq(String course2){
+    public void addCoursePrereq(String course2){
         for(String key : adjList.keySet()){
             if(course2.equals(key)){
                 for(int i = 0; i < adjList.get(key).size(); i++){
@@ -64,7 +62,9 @@ public class ModifiedHashMap {
                 }
                 if(adjList.get(key).size() != 0){
                     for(int i = 0; i < adjList.get(key).size(); i++){
-                        addAllPrereq(adjList.get(key).get(i));
+                       if(!allPrereq.contains(adjList.get(key).get(i))){
+                            addCoursePrereq(adjList.get(key).get(i));
+                        }
                     }
                 }
                 break;
@@ -76,7 +76,7 @@ public class ModifiedHashMap {
         ArrayList<String> taken = findAllPrereq(coursesTaken);
         ArrayList<String> coursesEligible = new ArrayList<String>();
         for(String key : adjList.keySet()){
-            addAllPrereq(key);
+            addCoursePrereq(key);
             if(taken.containsAll(allPrereq) && !taken.contains(key)){
                 coursesEligible.add(key);
             }
@@ -102,9 +102,16 @@ public class ModifiedHashMap {
         ArrayList<String> need = needToTake(target, taken);
         need.addAll(taken);
         need.add(target);
+        ArrayList<String> a = findAllPrereq(taken);
+        if(a.contains(target)){
+            return semesters;
+        }
         orderCourses(target, need);
         orderedNeed.remove(target);
         orderedNeed.removeAll(taken);
+        if(orderedNeed.isEmpty()){
+            return semesters;
+        }
         int counter = 0; 
         while(!orderedNeed.isEmpty()){
             semesters.add(counter, new ArrayList<>());
@@ -137,11 +144,16 @@ public class ModifiedHashMap {
     }
 
     public void orderCourses(String target, ArrayList<String> need){
-        while(!orderedNeed.contains(target)){
-            for(String key : eligible(temp)){
-                if(need.contains(key) && !orderedNeed.contains(key)){
-                    orderedNeed.add(key);
-                    temp.add(key);
+        int emergencyCounter = 0;
+            while(!orderedNeed.contains(target)){
+                emergencyCounter++;
+                if(emergencyCounter == 99){
+                    break;
+                }
+                for(String key : eligible(temp)){
+                    if(need.contains(key) && !orderedNeed.contains(key)){
+                        orderedNeed.add(key);
+                        temp.add(key);
                 }
             }
         }
