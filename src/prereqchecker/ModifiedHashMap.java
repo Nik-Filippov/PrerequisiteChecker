@@ -54,18 +54,25 @@ public class ModifiedHashMap {
         return taken;
     }
 
+    private ArrayList<String> findAllPrereq(String courseTaken){
+        ArrayList<String> str = new ArrayList<>();
+        str.add(courseTaken);
+        ArrayList<String> out = findAllPrereq(str);
+        out.remove(courseTaken);
+        return out;
+    }
+
     public void addCoursePrereq(String course2){
         for(String key : adjList.keySet()){
             if(course2.equals(key)){
-                for(int i = 0; i < adjList.get(key).size(); i++){
-                    allPrereq.add(adjList.get(key).get(i));
-                }
                 if(adjList.get(key).size() != 0){
                     for(int i = 0; i < adjList.get(key).size(); i++){
                        if(!allPrereq.contains(adjList.get(key).get(i))){
                             addCoursePrereq(adjList.get(key).get(i));
                         }
                     }
+                }               for(int i = 0; i < adjList.get(key).size(); i++){
+                    allPrereq.add(adjList.get(key).get(i));
                 }
                 break;
             }
@@ -77,7 +84,8 @@ public class ModifiedHashMap {
         ArrayList<String> coursesEligible = new ArrayList<String>();
         for(String key : adjList.keySet()){
             addCoursePrereq(key);
-            if(taken.containsAll(allPrereq) && !taken.contains(key)){
+            ArrayList<String> need = findAllPrereq(key);
+            if(taken.containsAll(need) && !taken.contains(key)){
                 coursesEligible.add(key);
             }
             allPrereq.clear();

@@ -58,9 +58,9 @@ public class NeedToTake {
         }
         StdIn.setFile(str);
         String targetCourse = StdIn.readLine();
-        StdIn.readLine();
+        int count = Integer.parseInt(StdIn.readLine());
         ArrayList<String> coursesTaken = new ArrayList<>();
-        while(StdIn.hasNextLine()){
+        for(int i = 0; i < count; i++){
             coursesTaken.add(StdIn.readLine());
         }
         ModifiedHashMap hm = new ModifiedHashMap(adjList);

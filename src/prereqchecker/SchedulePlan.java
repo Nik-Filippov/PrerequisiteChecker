@@ -60,9 +60,9 @@ public class SchedulePlan {
         }
         StdIn.setFile(str);
         String target = StdIn.readLine();
-        StdIn.readLine();
-        ArrayList <String> taken = new ArrayList<>();
-        while(StdIn.hasNextLine()){
+        int count = Integer.parseInt(StdIn.readLine());
+        ArrayList<String> taken = new ArrayList<>();
+        for(int i = 0; i < count; i++){
             taken.add(StdIn.readLine());
         }
         ModifiedHashMap hm = new ModifiedHashMap(adjList);
