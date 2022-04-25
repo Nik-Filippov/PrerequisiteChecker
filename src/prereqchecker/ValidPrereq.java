@@ -44,28 +44,17 @@ public class ValidPrereq {
         //String str = "validprereq.in";
         //StdIn.setFile("adjlist.in");
         //StdOut.setFile("validprereq.out");
-        HashMap<String, ArrayList<String>> adjList = new  HashMap<>();
-        StdIn.readLine();
-        boolean isPrereq = false;
-        while(StdIn.hasNextLine()){
+        HashMap<String, ArrayList<String>> adjList = new HashMap<>();
+        int numEntries = Integer.parseInt(StdIn.readLine());
+        for(int i = 0; i < numEntries; i++){
             String input = StdIn.readLine();
-            if(Character.isDigit(input.charAt(0))){
-                isPrereq = true;
-                continue;
-            }
-            if(!isPrereq){
-                adjList.put(input, new ArrayList<>());
-            }
-            else{
-                String curCourse = input.substring(0, input.indexOf(" "));
-                String prereqCourse = input.substring(input.indexOf(" ") + 1);
-                for(String key : adjList.keySet()){
-                    if(curCourse.equals(key)){
-                        adjList.get(key).add(prereqCourse);
-                        break;
-                    }
-                }
-            }
+            adjList.put(input, new ArrayList<String>());
+        }
+        int numConnections = Integer.parseInt(StdIn.readLine());
+        for(int i = 0; i < numConnections; i++){
+            String input = StdIn.readLine();
+            String key = input.substring(0,input.indexOf(" "));
+            adjList.get(key).add(input.substring(input.indexOf(" ") + 1));
         }
         //If course 2 was an immediate prerequisite for course 1, would all courses still be possible to take?
         //If course 1 is a prerequisite to course 2, print "NO", otherwise "YES"

@@ -26,7 +26,6 @@ public class AdjList {
         javac -d bin src/prereqchecker/*.java
         java -cp bin prereqchecker.AdjList adjlist.in adjlist.out
         */
-        
         if ( args.length < 2 ) {
             StdOut.println("Execute: java -cp bin prereqchecker.AdjList <adjacency list INput file> <adjacency list OUTput file>");
             return;
@@ -35,47 +34,35 @@ public class AdjList {
             StdIn.setFile(args[0]);
             StdOut.setFile(args[1]);
         }
-        
         //StdIn.setFile("adjlist.in");
         //StdOut.setFile("adjlist.out");
         HashMap<String, ArrayList<String>> adjList = new HashMap<>();
         int numEntries = Integer.parseInt(StdIn.readLine());
-        boolean isPrereq = false;
-        while(StdIn.hasNextLine()){
+        for(int i = 0; i < numEntries; i++){
             String input = StdIn.readLine();
-            if(Character.isDigit(input.charAt(0))){
-                isPrereq = true;
-                continue;
-            }
-            if(!isPrereq){
-                adjList.put(input, new ArrayList<>());
-            }
-            else{
-                String curCourse = input.substring(0, input.indexOf(" "));
-                String prereqCourse = input.substring(input.indexOf(" ") + 1);
-                for(String key : adjList.keySet()){
-                    if(curCourse.equals(key)){
-                        adjList.get(key).add(prereqCourse);
-                        break;
-                    }
-                }
-            }
+            adjList.put(input, new ArrayList<String>());
+        }
+        int numConnections = Integer.parseInt(StdIn.readLine());
+        for(int i = 0; i < numConnections; i++){
+            String input = StdIn.readLine();
+            String key = input.substring(0,input.indexOf(" "));
+            adjList.get(key).add(input.substring(input.indexOf(" ") + 1));
         }
         int counter = 0;
         for(String key : adjList.keySet()){
             counter++;
-            String prereq = key + " ";
-            if(!adjList.get(key).isEmpty()){
-                for(int i = 0; i < adjList.get(key).size(); i++){
-                    prereq += adjList.get(key).get(i) + " ";
+            String prereq = "";
+            for(int i = 0; i < adjList.get(key).size(); i++){
+                prereq += adjList.get(key).get(i);
+                if(i != adjList.get(key).size() - 1){
+                    prereq += " ";
                 }
             }
-            prereq = prereq.substring(0, prereq.length() - 1);
-            if(counter == numEntries){
-                StdOut.print(prereq);
+            if(counter < numEntries){
+                StdOut.println(key + " " + prereq);
             }
             else{
-                StdOut.println(prereq);
+                StdOut.print(key + " " + prereq);
             }
         }
     }
