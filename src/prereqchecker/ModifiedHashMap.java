@@ -71,7 +71,8 @@ public class ModifiedHashMap {
                             addCoursePrereq(adjList.get(key).get(i));
                         }
                     }
-                }               for(int i = 0; i < adjList.get(key).size(); i++){
+                }               
+                for(int i = 0; i < adjList.get(key).size(); i++){
                     allPrereq.add(adjList.get(key).get(i));
                 }
                 break;
@@ -108,62 +109,26 @@ public class ModifiedHashMap {
     public ArrayList<ArrayList<String>> schedule(String target, ArrayList<String> taken){
         ArrayList<ArrayList<String>> semesters = new ArrayList<ArrayList<String>>();
         ArrayList<String> need = needToTake(target, taken);
-        need.addAll(taken);
-        need.add(target);
         ArrayList<String> a = findAllPrereq(taken);
         if(a.contains(target)){
             return semesters;
         }
-        orderCourses(target, need);
-        orderedNeed.remove(target);
-        orderedNeed.removeAll(taken);
-        if(orderedNeed.isEmpty()){
-            return semesters;
-        }
-        int counter = 0; 
-        while(!orderedNeed.isEmpty()){
-            semesters.add(counter, new ArrayList<>());
-            for(int i = 0; i < orderedNeed.size(); i++){
-                String cur = orderedNeed.get(i);
-                if(!semesters.get(counter).isEmpty()){
-                    boolean canAdd = true;
-                    for(int j = 0; j < semesters.get(counter).size(); j++){
-                        if(adjList.get(cur).contains(semesters.get(counter).get(j))){
-                            canAdd = false;
-                        }
-                    }
-                    if(!canAdd){
-                        i = orderedNeed.size();
-                        break;
-                    }
-                    else{
-                        semesters.get(counter).add(cur);
-                        break;
-                    }
-                }
-                else{
-                    semesters.get(counter).add(cur);
+        ArrayList<String> removeList = new ArrayList<>();
+        while(!removeList.containsAll(need)){
+            ArrayList<String> cur = new ArrayList<>();
+            for(String key : need){
+                ArrayList<String> eligibleNow = eligible(taken);
+                if(eligibleNow.contains(key) && !removeList.contains(key)){
+                    cur.add(key);
+                    removeList.add(key);
                 }
             }
-            orderedNeed.removeAll(semesters.get(counter));
-            counter++;
+            taken.addAll(cur);
+            if(cur.isEmpty()){
+                break;
+            }
+            semesters.add(cur);
         }
         return semesters;
-    }
-
-    public void orderCourses(String target, ArrayList<String> need){
-        int emergencyCounter = 0;
-            while(!orderedNeed.contains(target)){
-                emergencyCounter++;
-                if(emergencyCounter == 99){
-                    break;
-                }
-                for(String key : eligible(temp)){
-                    if(need.contains(key) && !orderedNeed.contains(key)){
-                        orderedNeed.add(key);
-                        temp.add(key);
-                }
-            }
-        }
     }
 }

@@ -31,7 +31,7 @@ public class Eligible {
         cd /Users/nikitafilippov/Desktop/Java/PreReqChecker
         javac -d bin src/prereqchecker/*.java
         java -cp bin prereqchecker.Eligible adjlist.in eligible.in eligible.out
-        *//*
+        */
         String str = "";
         if ( args.length < 3 ) {
             StdOut.println("Execute: java -cp bin prereqchecker.Eligible <adjacency list INput file> <eligible INput file> <eligible OUTput file>");
@@ -41,10 +41,10 @@ public class Eligible {
             StdIn.setFile(args[0]);
             str = args[1];
             StdOut.setFile(args[2]);
-        }*/
-        StdIn.setFile("adjlist.in");
-        StdOut.setFile("eligible.out");
-        String str = "eligible.in";
+        }
+        //StdIn.setFile("adjlist.in");
+        //StdOut.setFile("eligible.out");
+        //String str = "eligible.in";
         HashMap<String, ArrayList<String>> adjList = new HashMap<>();
         int numEntries = Integer.parseInt(StdIn.readLine());
         for(int i = 0; i < numEntries; i++){
