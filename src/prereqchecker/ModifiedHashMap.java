@@ -15,8 +15,6 @@ public class ModifiedHashMap {
    
     private HashMap<String, ArrayList<String>> adjList;
     private HashSet<String> allPrereq = new HashSet<String>();
-    private ArrayList<String> temp = new ArrayList<String>();
-    private ArrayList<String> orderedNeed = new ArrayList<String>();
 
     public ModifiedHashMap(HashMap<String, ArrayList<String>> adjList) {
         this.adjList = adjList;
